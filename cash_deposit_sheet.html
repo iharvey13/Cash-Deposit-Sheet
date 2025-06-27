@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Deposit Sheet</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles to ensure responsive and professional look */
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top to allow scrolling if content is long */
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Softer, larger shadow */
+            padding: 2.5rem; /* Increased padding */
+            max-width: 900px; /* Wider container */
+            width: 100%;
+        }
+        .input-field {
+            border: 1px solid #cbd5e0; /* Light gray border */
+            border-radius: 8px; /* Rounded input fields */
+            padding: 0.75rem 1rem; /* Comfortable padding */
+            width: 100%;
+            transition: border-color 0.2s; /* Smooth transition on focus */
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6; /* Blue border on focus */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); /* Subtle focus ring */
+        }
+        .section-title {
+            font-size: 1.5rem; /* Larger section titles */
+            font-weight: 700; /* Bold */
+            color: #1f2937; /* Dark gray text */
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0; /* Underline effect */
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+            gap: 1.5rem; /* Increased gap */
+        }
+        .signature-line {
+            border-bottom: 1px dashed #9ca3af; /* Dashed line for signature */
+            flex-grow: 1; /* Take available space */
+        }
+        .text-label {
+            font-weight: 600; /* Semi-bold label */
+            color: #4b5563; /* Medium gray text */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-8">Cash Deposit Sheet</h1>
+
+        <!-- Deposit Details Section -->
+        <div class="mb-8">
+            <h2 class="section-title">Deposit Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="depositDate" class="block text-sm text-label mb-2">Deposit Date:</label>
+                    <input type="date" id="depositDate" class="input-field" value="" onchange="calculateTotal()">
+                </div>
+                <div>
+                    <label for="preparedBy" class="block text-sm text-label mb-2">Prepared By:</label>
+                    <input type="text" id="preparedBy" class="input-field" placeholder="Enter name">
+                </div>
+            </div>
+        </div>
+
+        <!-- Cash Denominations Section -->
+        <div class="mb-8">
+            <h2 class="section-title">Cash Denominations</h2>
+            <div class="grid-container">
+                <!-- 100s -->
+                <div class="flex items-center">
+                    <label for="qty100" class="text-label text-md w-1/3">100s:</label>
+                    <input type="number" id="qty100" class="input-field w-1/3 text-center" value="0" min="0" oninput="calculateTotal()">
+                    <span class="ml-2 text-label text-md w-1/6">@ $100 =</span>
+                    <input type="text" id="total100" class="input-field w-1/3 text-right font-bold bg-gray-50 cursor-not-allowed" value="$0.00" readonly tabindex="-1">
+                </div>
+                <!-- 50s -->
+                <div class="flex items-center">
+                    <label for="qty50" class="text-label text-md w-1/3">50s:</label>
+                    <input type="number" id="qty50" class="input-field w-1/3 text-center" value="0" min="0" oninput="calculateTotal()">
+                    <span class="ml-2 text-label text-md w-1/6">@ $50 =</span>
+                    <input type="text" id="total50" class="input-field w-1/3 text-right font-bold bg-gray-50 cursor-not-allowed" value="$0.00" readonly tabindex="-1">
+                </div>
+                <!-- 20s -->
+                <div class="flex items-center">
+                    <label for="qty20" class="text-label text-md w-1/3">20s:</label>
+                    <input type="number" id="qty20" class="input-field w-1/3 text-center" value="0" min="0" oninput="calculateTotal()">
+                    <span class="ml-2 text-label text-md w-1/6">@ $20 =</span>
+                    <input type="text" id="total20" class="input-field w-1/3 text-right font-bold bg-gray-50 cursor-not-allowed" value="$0.00" readonly tabindex="-1">
+                </div>
+                <!-- 10s -->
+                <div class="flex items-center">
+                    <label for="qty10" class="text-label text-md w-1/3">10s:</label>
+                    <input type="number" id="qty10" class="input-field w-1/3 text-center" value="0" min="0" oninput="calculateTotal()">
+                    <span class="ml-2 text-label text-md w-1/6">@ $10 =</span>
+                    <input type="text" id="total10" class="input-field w-1/3 text-right font-bold bg-gray-50 cursor-not-allowed" value="$0.00" readonly tabindex="-1">
+                </div>
+                <!-- 5s -->
+                <div class="flex items-center">
+                    <label for="qty5" class="text-label text-md w-1/3">5s:</label>
+                    <input type="number" id="qty5" class="input-field w-1/3 text-center" value="0" min="0" oninput="calculateTotal()">
+                    <span class="ml-2 text-label text-md w-1/6">@ $5 =</span>
+                    <input type="text" id="total5" class="input-field w-1/3 text-right font-bold bg-gray-50 cursor-not-allowed" value="$0.00" readonly tabindex="-1">
+                </div>
+                <!-- 1s -->
+                <div class="flex items-center">
+                    <label for="qty1" class="text-label text-md w-1/3">1s:</label>
+                    <input type="number" id="qty1" class="input-field w-1/3 text-center" value="0" min="0" oninput="calculateTotal()">
+                    <span class="ml-2 text-label text-md w-1/6">@ $1 =</span>
+                    <input type="text" id="total1" class="input-field w-1/3 text-right font-bold bg-gray-50 cursor-not-allowed" value="$0.00" readonly tabindex="-1">
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Items Section -->
+        <div class="mb-8">
+            <h2 class="section-title">Other Items</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="checks" class="block text-sm text-label mb-2">Checks Total:</label>
+                    <input type="number" id="checks" class="input-field" value="0.00" min="0" step="0.01" oninput="calculateTotal()">
+                </div>
+                <div>
+                    <label for="change" class="block text-sm text-label mb-2">Change Total:</label>
+                    <input type="number" id="change" class="input-field" value="0.00" min="0" step="0.01" oninput="calculateTotal()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Deposit Section -->
+        <div class="mb-10 text-right">
+            <h2 class="text-2xl font-extrabold text-gray-800 flex justify-end items-center">
+                <span class="mr-4">TOTAL DEPOSIT:</span>
+                <input type="text" id="grandTotal" class="input-field w-64 text-right text-3xl font-extrabold text-green-700 bg-green-50 border-green-300 cursor-not-allowed" value="$0.00" readonly tabindex="-1">
+            </h2>
+        </div>
+
+        <!-- Signatures Section -->
+        <div>
+            <h2 class="section-title">Signatures</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-8 mt-6">
+                <div class="flex flex-col items-start">
+                    <div class="signature-line w-full mb-2 h-6"></div>
+                    <span class="text-sm text-gray-600">Signature for Office Manager</span>
+                </div>
+                <div class="flex flex-col items-start">
+                    <div class="signature-line w-full mb-2 h-6"></div>
+                    <span class="text-sm text-gray-600">Signature for Director</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Function to set the current date as default for the deposit date
+        window.onload = function() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            const dd = String(today.getDate()).padStart(2, '0');
+            document.getElementById('depositDate').value = `${yyyy}-${mm}-${dd}`;
+            calculateTotal(); // Calculate total on load with default values
+        };
+
+        // Function to calculate the total deposit amount
+        function calculateTotal() {
+            const denominations = [100, 50, 20, 10, 5, 1];
+            let cashTotal = 0;
+
+            // Calculate total for each cash denomination
+            denominations.forEach(denom => {
+                const qtyId = `qty${denom}`;
+                const totalId = `total${denom}`;
+                const quantity = parseFloat(document.getElementById(qtyId).value) || 0;
+                const total = quantity * denom;
+                document.getElementById(totalId).value = `$${total.toFixed(2)}`;
+                cashTotal += total;
+            });
+
+            // Get checks and change amounts
+            const checks = parseFloat(document.getElementById('checks').value) || 0;
+            const change = parseFloat(document.getElementById('change').value) || 0;
+
+            // Calculate grand total
+            const grandTotal = cashTotal + checks + change;
+            document.getElementById('grandTotal').value = `$${grandTotal.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
